@@ -8,6 +8,7 @@ import { Button, Field, useToast } from '../components/ui'
 import { PILLARS } from '../app/pillars'
 import { branchProgress, currentWeek, daysLeft, seasonPercent, streak } from '../app/engine'
 import { useStore } from '../app/store'
+import { saveFile } from '../app/host'
 import type { AppState, Branch } from '../app/types'
 
 export function Profile({ onPulse, onReset }: { onPulse: () => void; onReset: () => void }) {
@@ -22,15 +23,10 @@ export function Profile({ onPulse, onReset }: { onPulse: () => void; onReset: ()
 
   const progress = branchProgress(state)
 
-  const exportData = () => {
-    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const anchor = document.createElement('a')
-    anchor.href = url
-    anchor.download = `alfred-${new Date().toISOString().slice(0, 10)}.json`
-    anchor.click()
-    URL.revokeObjectURL(url)
-    notify('Copia descargada')
+  const exportData = async () => {
+    const name = `alfred-${new Date().toISOString().slice(0, 10)}.json`
+    const outcome = await saveFile(name, JSON.stringify(state, null, 2))
+    notify(outcome === 'guardado' ? 'Copia descargada' : 'Copia sin guardar')
   }
 
   const importData = async (file: File) => {
@@ -111,7 +107,7 @@ export function Profile({ onPulse, onReset }: { onPulse: () => void; onReset: ()
             variant="secondary"
             full
             icon={<Download size={16} strokeWidth={2} aria-hidden />}
-            onClick={exportData}
+            onClick={() => void exportData()}
           >
             Descargar copia
           </Button>
