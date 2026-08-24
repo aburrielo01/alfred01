@@ -46,6 +46,26 @@ Cada rama recibe cuatro movimientos por semana, con día fijo: lunes, martes,
 jueves y sábado. Ese ritmo es lo que permite comparar semanas y saber, un jueves
 por la tarde, si vas por delante o por detrás.
 
+## Instalarla en el móvil
+
+Alfred es una PWA: se instala en la pantalla de inicio, arranca a pantalla
+completa y funciona sin conexión.
+
+1. Abre la dirección publicada en el móvil.
+2. **iPhone (Safari):** Compartir → *Añadir a pantalla de inicio*.
+   **Android (Chrome):** menú ⋮ → *Instalar aplicación*.
+3. Ábrela desde el icono. A partir de ahí no necesita red.
+
+El despliegue es automático: cada empujón a la rama lanza el flujo de trabajo
+de `.github/workflows/pages.yml`, que construye y publica en GitHub Pages.
+La primera vez hay que activar Pages en *Settings → Pages* eligiendo
+**GitHub Actions** como origen.
+
+Un service worker (`scripts/build-sw.mjs` lo genera con la lista real de
+archivos del build) guarda la app entera en el dispositivo. La versión de la
+caché es el hash del contenido: una visita repetida no descarga nada y un
+despliegue nuevo se recoge solo.
+
 ## Desarrollo
 
 ```bash
@@ -57,7 +77,8 @@ npm run preview    # sirve el build
 
 Sin dependencias de UI más allá de React y [lucide](https://lucide.dev) para los
 iconos. El diseño vive en `src/styles/tokens.css`: colores, escala tipográfica,
-radios, sombras y tiempos de animación.
+radios, sombras y tiempos de animación. La tipografía viaja dentro del paquete,
+así que la app no hace ninguna petición externa.
 
 ## Estructura
 
