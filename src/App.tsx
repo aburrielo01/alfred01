@@ -16,7 +16,8 @@ import { pointsOf } from './app/engine'
 import type { Route, Tab } from './app/nav'
 import type { Movement } from './app/types'
 
-const BOOT_MS = 1100
+// La firma termina de trazarse a los 1,55 s: el arranque la deja acabar.
+const BOOT_MS = 1700
 
 const TAB_LABELS: Record<Tab, string> = {
   hoy: 'Hoy',

@@ -92,6 +92,10 @@ semana anterior— y **azul** para lo que está en curso, que aparece una sola v
 en el punto de hoy sobre la curva. Las ramas ya no tienen color propio: se
 distinguen por su número, que es también el orden en que el sistema las mira.
 
+La marca es una firma manuscrita que se traza sola al abrir la app —el único
+momento autoral del sistema— y un icono que sale de su primera letra. En las
+cabeceras la firma va en tinta: aquí el rojo solo avisa.
+
 Dos voces tipográficas, cada una con su trabajo:
 
 - **Silkscreen** para rótulos, etiquetas y cifras. Se eligió entre varias

@@ -3,6 +3,7 @@ import { ChevronRight, Download, Sparkles, Trash2, Upload } from 'lucide-react'
 import { Screen } from '../components/Screen'
 import { Sheet } from '../components/Sheet'
 import { BranchEditor } from './Onboarding'
+import { BrandIcon } from '../components/Brand'
 import { Index } from '../components/Index'
 import { Pct } from '../components/Pct'
 import { Button, Field, useToast } from '../components/ui'
@@ -148,6 +149,7 @@ export function Profile({ onPulse, onReset }: { onPulse: () => void; onReset: ()
       </section>
 
       <p className="colophon">
+        <BrandIcon className="colophon__icon" />
         Alfred · prototipo funcional
         <br />
         Un objetivo, tres ramas, un movimiento cada vez.

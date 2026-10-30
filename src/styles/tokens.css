@@ -24,8 +24,11 @@
   --line: rgba(25, 25, 27, 0.1);
   --line-strong: rgba(25, 25, 27, 0.22);
 
-  /* Los dos únicos colores: uno avisa, el otro marca lo que está en curso. */
-  --alert: #d51a23;
+  /* Los dos únicos colores: uno avisa, el otro marca lo que está en curso.
+     El rojo es el de la marca, así que la alerta y la firma son familia. */
+  --brand: #e52335;
+  --brand-deep: #b80f29;
+  --alert: var(--brand);
   --live: #0075ff;
 
   /* Tipografía ----------------------------------------------------------- */

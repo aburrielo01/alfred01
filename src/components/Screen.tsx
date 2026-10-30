@@ -1,4 +1,5 @@
 import { Activity, ChevronLeft } from 'lucide-react'
+import { BrandSign } from './Brand'
 import type { ReactNode } from 'react'
 
 interface ScreenProps {
@@ -20,8 +21,10 @@ export function Screen({ title, subtitle, onPulse, onBack, backLabel, children }
             <ChevronLeft size={20} strokeWidth={2.2} aria-hidden />
             {backLabel ?? 'Atrás'}
           </button>
+        ) : title ? (
+          <p className="screen__title">{title}</p>
         ) : (
-          <p className={title ? 'screen__title' : 'wordmark screen__wordmark'}>{title ?? 'Alfred'}</p>
+          <BrandSign className="screen__wordmark" />
         )}
         {onPulse ? (
           <button

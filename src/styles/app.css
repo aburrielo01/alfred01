@@ -106,6 +106,64 @@ button,
   }
 }
 
+/* Marca ------------------------------------------------------------------- */
+
+.brand-sign {
+  display: block;
+  line-height: 0;
+  color: inherit;
+}
+
+.brand-sign svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.brand-icon {
+  display: block;
+  overflow: hidden;
+  border-radius: 24%;
+}
+
+.brand-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* El trazo se dibuja una sola vez, al abrir: es el único momento autoral. */
+.sign--draw path {
+  stroke-dasharray: 1 1;
+  animation: sign-draw var(--dur) cubic-bezier(0.45, 0.05, 0.4, 1) var(--delay) both;
+}
+
+.sign--draw circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sign-dot 0.3s cubic-bezier(0.34, 1.7, 0.6, 1) var(--delay) both;
+}
+
+@keyframes sign-draw {
+  0% { stroke-dashoffset: 1; opacity: 0; }
+  0.1% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes sign-dot {
+  from { scale: 0; }
+  to { scale: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sign--draw path,
+  .sign--draw circle,
+  .boot__icon {
+    animation: none;
+  }
+}
+
 /* Arranque ---------------------------------------------------------------- */
 
 .boot {
@@ -117,13 +175,28 @@ button,
   background: var(--bg);
 }
 
+.boot__brand {
+  display: grid;
+  justify-items: center;
+  gap: 1.9rem;
+  translate: 0 -5%;
+  color: var(--brand);
+}
+
 .boot__mark {
-  font-family: var(--font-matrix);
-  font-size: 2rem;
-  letter-spacing: var(--track-wide);
-  text-transform: uppercase;
-  opacity: 0;
-  animation: boot-mark 420ms var(--ease) 80ms forwards;
+  width: min(62vw, 15rem);
+}
+
+.boot__icon {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 1.2rem;
+  animation: boot-icon 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+}
+
+@keyframes boot-icon {
+  from { opacity: 0; scale: 0.84; }
+  to { opacity: 1; scale: 1; }
 }
 
 .boot__foot {
@@ -143,7 +216,7 @@ button,
 .boot__spinner {
   width: 10px;
   height: 14px;
-  background: var(--ink);
+  background: var(--brand);
   animation: blink 900ms steps(1, end) infinite;
 }
 
@@ -152,11 +225,6 @@ button,
   height: 13px;
   background: currentColor;
   animation: blink 900ms steps(1, end) infinite;
-}
-
-@keyframes boot-mark {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 @keyframes blink {
@@ -209,13 +277,17 @@ button,
   padding: 0 var(--s1) var(--s2);
 }
 
-.screen__wordmark,
 .screen__title {
   font-family: var(--font-matrix);
   font-size: 1.25rem;
   letter-spacing: var(--track-wide);
   text-transform: uppercase;
   line-height: 1;
+}
+
+.screen__wordmark {
+  width: 6.25rem;
+  color: var(--ink);
 }
 
 .screen__subtitle {
@@ -509,6 +581,12 @@ button,
   color: var(--ink-2);
   font-size: 0.875rem;
   line-height: 1.45;
+}
+
+.colophon__icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0 auto var(--s3);
 }
 
 .colophon {
