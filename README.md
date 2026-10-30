@@ -76,9 +76,30 @@ npm run preview    # sirve el build
 ```
 
 Sin dependencias de UI más allá de React y [lucide](https://lucide.dev) para los
-iconos. El diseño vive en `src/styles/tokens.css`: colores, escala tipográfica,
-radios, sombras y tiempos de animación. La tipografía viaja dentro del paquete,
-así que la app no hace ninguna petición externa.
+pocos iconos que quedan. El diseño vive en `src/styles/tokens.css`: metal,
+tinta, escala tipográfica, radios y tiempos. La tipografía viaja dentro del
+paquete, así que la app no hace ninguna petición externa.
+
+## El sistema visual: Liquid Metal
+
+Aluminio anodizado y matriz de píxeles. Superficies planas y mate —sin
+degradados ni sombras—: lo que separa una tarjeta del fondo es su luz, no un
+borde. Todo rótulo va en mayúsculas, monoespaciado y con aire entre letras.
+
+El color no decora, avisa. Solo hay dos: **rojo** para lo que reclama atención
+—la rama más descuidada, la sección donde estás, un retroceso frente a la
+semana anterior— y **azul** para lo que está en curso, que aparece una sola vez,
+en el punto de hoy sobre la curva. Las ramas ya no tienen color propio: se
+distinguen por su número, que es también el orden en que el sistema las mira.
+
+Dos voces tipográficas, cada una con su trabajo:
+
+- **Silkscreen** para rótulos, etiquetas y cifras. Se eligió entre varias
+  matrices porque dibuja las mayúsculas acentuadas —DÍAS, REVISIÓN, ÁREA— en
+  lugar de rebajarlas a minúscula, que en español se lee como una errata.
+- **La sans del sistema** para lo que se lee de corrido: los pasos de un
+  movimiento, las metas de cada rama, la prosa de las hojas. Una matriz es una
+  voz, no un cuerpo de texto.
 
 ## Estructura
 

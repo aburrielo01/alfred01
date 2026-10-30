@@ -1,11 +1,11 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, type ReactNode } from 'react'
 import { ChevronRight, Download, Sparkles, Trash2, Upload } from 'lucide-react'
 import { Screen } from '../components/Screen'
 import { Sheet } from '../components/Sheet'
 import { BranchEditor } from './Onboarding'
-import { BranchBadge } from '../components/BranchIcon'
+import { Index } from '../components/Index'
+import { Pct } from '../components/Pct'
 import { Button, Field, useToast } from '../components/ui'
-import { PILLARS } from '../app/pillars'
 import { branchProgress, currentWeek, daysLeft, seasonPercent, streak } from '../app/engine'
 import { useStore } from '../app/store'
 import { saveFile } from '../app/host'
@@ -40,16 +40,16 @@ export function Profile({ onPulse, onReset }: { onPulse: () => void; onReset: ()
     }
   }
 
-  const facts = [
+  const facts: { label: string; value: ReactNode }[] = [
     { label: 'Objetivo', value: season.purpose },
     { label: 'Semana', value: `${currentWeek(season)} de ${season.weeks}` },
-    { label: 'Cumplimiento', value: `${seasonPercent(progress)}%` },
-    { label: 'Racha de días cumplidos', value: `${streak(state)}` },
+    { label: 'Cumplimiento', value: <Pct value={seasonPercent(progress)} /> },
+    { label: 'Racha', value: `${streak(state)} días` },
     { label: 'Quedan', value: `${daysLeft(season)} días` },
   ]
 
   return (
-    <Screen title="Perfil" subtitle="Quién eres para el sistema." onPulse={onPulse}>
+    <Screen title="Perfil" subtitle="Tú y tus datos" onPulse={onPulse}>
       <section className="stack stack--tight">
         <Field
           label="Tu nombre"
@@ -60,7 +60,7 @@ export function Profile({ onPulse, onReset }: { onPulse: () => void; onReset: ()
       </section>
 
       <section className="stack stack--tight">
-        <p className="overline">Temporada</p>
+        <p className="overline">01 · Temporada</p>
         <dl className="facts">
           {facts.map((fact) => (
             <div key={fact.label} className="facts__row">
@@ -72,32 +72,27 @@ export function Profile({ onPulse, onReset }: { onPulse: () => void; onReset: ()
       </section>
 
       <section className="stack stack--tight">
-        <p className="overline">Ramas</p>
+        <p className="overline">02 · Ramas</p>
         <ul className="branch-list">
-          {season.branches.map((branch) => {
-            const pillar = PILLARS[branch.pillar]
-            return (
-              <li key={branch.id}>
-                <button
-                  type="button"
-                  className="branch-row branch-row--quiet"
-                  onClick={() => setEditing(branch)}
-                >
-                  <BranchBadge pillar={branch.pillar} color={pillar.color} size={40} />
-                  <span className="branch-row__text">
-                    <span className="branch-row__goal">{branch.name}</span>
-                    <span className="branch-row__name">{branch.goal}</span>
-                  </span>
-                  <ChevronRight size={18} strokeWidth={2} aria-hidden />
-                </button>
-              </li>
-            )
-          })}
+          {season.branches.map((branch, i) => (
+            <li key={branch.id}>
+              <button type="button" className="branch-row" onClick={() => setEditing(branch)}>
+                <span className="branch-row__index">
+                  <Index n={i + 2} label="Rama" />
+                </span>
+                <span className="branch-row__text">
+                  <span className="branch-row__goal">{branch.name}</span>
+                  <span className="branch-row__name">{branch.goal}</span>
+                </span>
+                <ChevronRight size={16} strokeWidth={2} aria-hidden />
+              </button>
+            </li>
+          ))}
         </ul>
       </section>
 
       <section className="stack stack--tight">
-        <p className="overline">Tus datos</p>
+        <p className="overline">06 · Tus datos</p>
         <p className="hint">
           Todo vive en este dispositivo, en el almacenamiento del navegador. No hay cuenta ni
           servidor: la copia manual es tu respaldo.

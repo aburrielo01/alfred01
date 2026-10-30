@@ -1,59 +1,51 @@
 /* ---------------------------------------------------------------------------
-   Alfred — design tokens
-   Dark by intent: the app is used at the edges of the day, in low light,
-   on a phone held close. One tint drives action; three branch hues carry
-   meaning and nothing else.
+   Alfred — Liquid Metal
+   Aluminio anodizado y matriz de puntos. Superficies planas, mate, sin
+   degradados ni sombras: lo que separa una tarjeta del fondo es su luz.
+   El color no decora, avisa.
    ------------------------------------------------------------------------ */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* Surfaces ------------------------------------------------------------- */
-  --bg: #000000;
-  --surface-1: #0b0b0e;
-  --surface-2: #141418;
-  --surface-3: #1c1c22;
-  --hairline: rgba(255, 255, 255, 0.09);
-  --hairline-strong: rgba(255, 255, 255, 0.16);
+  /* Metal ---------------------------------------------------------------- */
+  --bg: #d6d7db;
+  --surface: #ededef;
+  --surface-sunken: #e3e3e6;
+  --surface-raised: #f4f4f6;
 
-  /* Ink ------------------------------------------------------------------ */
-  --ink: #f5f5f7;
-  --ink-2: rgba(235, 235, 245, 0.62);
-  --ink-3: rgba(235, 235, 245, 0.52);
-  --ink-on-tint: #ffffff;
+  /* Tinta ---------------------------------------------------------------- */
+  --ink: #19191b;
+  --ink-2: #636366;
+  --ink-3: #9e9ea1;
+  --ink-inverse: #f4f4f6;
 
-  /* Tint: interactive only ---------------------------------------------- */
-  --tint: #0a84ff;
-  --tint-press: #0768cc;
-  --tint-soft: rgba(10, 132, 255, 0.16);
-  --tint-line: rgba(10, 132, 255, 0.42);
+  /* Trazos --------------------------------------------------------------- */
+  --line: rgba(25, 25, 27, 0.1);
+  --line-strong: rgba(25, 25, 27, 0.22);
 
-  /* Branch hues: meaning only ------------------------------------------- */
-  --branch-cuerpo: #ff2d55;
-  --branch-relaciones: #0a84ff;
-  --branch-proyecto: #30d158;
-  --branch-mente: #bf5af2;
-  --branch-finanzas: #ffd60a;
+  /* Los dos únicos colores: uno avisa, el otro marca lo que está en curso. */
+  --alert: #d51a23;
+  --live: #0075ff;
 
-  /* Semantic states ------------------------------------------------------ */
-  --ok: #30d158;
-  --warn: #ffd60a;
-  --danger: #ff453a;
-
-  /* Type ----------------------------------------------------------------- */
+  /* Tipografía ----------------------------------------------------------- */
+  --font-matrix: 'Silkscreen', 'Courier New', monospace;
   --font-ui: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter',
     'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Playfair Display', 'Iowan Old Style', 'Times New Roman', serif;
 
-  --t-hero: 2rem;        /* 32 — screen openers */
-  --t-title: 1.4375rem;  /* 23 — card titles */
-  --t-headline: 1.0625rem;
-  --t-body: 1.0625rem;   /* 17 — iOS body */
-  --t-callout: 0.9375rem;
-  --t-foot: 0.8125rem;
-  --t-caption: 0.6875rem;
+  /* Escala: la matriz es ancha, así que pide números más bajos que una sans */
+  --t-hero: 1.625rem;
+  --t-title: 1.25rem;
+  --t-lead: 1rem;
+  --t-body: 1rem;
+  --t-label: 0.8125rem;
+  --t-micro: 0.6875rem;
 
-  /* Rhythm --------------------------------------------------------------- */
+  /* Tracking: la matriz necesita aire entre glifos para leerse */
+  --track-matrix: 0.12em;
+  --track-wide: 0.2em;
+
+  /* Rejilla -------------------------------------------------------------- */
   --s1: 0.25rem;
   --s2: 0.5rem;
   --s3: 0.75rem;
@@ -61,24 +53,20 @@
   --s5: 1.25rem;
   --s6: 1.5rem;
   --s7: 2rem;
-  --s8: 2.5rem;
+  --s8: 3rem;
 
-  --r-card: 20px;
-  --r-tile: 16px;
+  --gutter: 1.125rem;
+  --r-card: 22px;
   --r-control: 14px;
   --r-pill: 999px;
 
-  /* Depth: offset + blur, never a zero-offset halo ----------------------- */
-  --lift-1: 0 1px 2px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.45);
-  --lift-2: 0 2px 6px rgba(0, 0, 0, 0.55), 0 18px 48px rgba(0, 0, 0, 0.6);
-
-  /* Motion --------------------------------------------------------------- */
+  /* Movimiento ----------------------------------------------------------- */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --fast: 160ms;
-  --base: 220ms;
-  --slow: 340ms;
+  --fast: 140ms;
+  --base: 200ms;
+  --slow: 300ms;
 
-  --tabbar-h: 4.5rem;
+  --tabbar-h: 4.25rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

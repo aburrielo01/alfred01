@@ -28,7 +28,7 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
         </div>
       </div>
       <p className="stage__note">
-        Alfred está pensado para el móvil. Esto es la misma app, en un marco.
+        La misma app, en un marco
       </p>
     </div>
   )

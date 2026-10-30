@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { ChevronRight, MoveRight, Target, User } from 'lucide-react'
+import { ChevronRight, MoveRight, User } from 'lucide-react'
 import { Screen } from '../components/Screen'
 import { Sheet } from '../components/Sheet'
-import { BranchBadge } from '../components/BranchIcon'
+import { Index } from '../components/Index'
 import { Button, Field, Segmented, TextField } from '../components/ui'
 import { PILLARS, PILLAR_ORDER } from '../app/pillars'
 import { useStore } from '../app/store'
@@ -58,11 +58,8 @@ export function Onboarding({ onCreated }: { onCreated: () => void }) {
       </div>
 
       <section className="stack">
-        <p className="overline">Tu objetivo de temporada</p>
         <button type="button" className="purpose-card" onClick={() => setPurposeOpen(true)}>
-          <span className="purpose-card__icon">
-            <Target size={22} strokeWidth={2} aria-hidden />
-          </span>
+          <Index n={1} label="Objetivo de temporada" />
           <span className="purpose-card__text">
             <span className="purpose-card__title">{purpose || 'Sin definir'}</span>
             <span className="purpose-card__detail">{purposeDetail}</span>
@@ -72,33 +69,26 @@ export function Onboarding({ onCreated }: { onCreated: () => void }) {
       </section>
 
       <section className="stack">
-        <p className="overline">Tus 3 ramas</p>
         <ul className="branch-list">
-          {branches.map((branch) => {
-            const pillar = PILLARS[branch.pillar]
-            return (
-              <li key={branch.id}>
-                <button
-                  type="button"
-                  className="branch-row"
-                  style={{ '--tone': pillar.color } as React.CSSProperties}
-                  onClick={() => setEditing(branch)}
-                >
-                  <BranchBadge pillar={branch.pillar} color={pillar.color} size={44} />
-                  <span className="branch-row__text">
-                    <span className="branch-row__goal">{branch.goal}</span>
-                    <span className="branch-row__name">{branch.name}</span>
-                  </span>
-                  <ChevronRight size={18} strokeWidth={2} aria-hidden />
-                </button>
-              </li>
-            )
-          })}
+          {branches.map((branch, i) => (
+            <li key={branch.id}>
+              <button type="button" className="branch-row" onClick={() => setEditing(branch)}>
+                <span className="branch-row__index">
+                  <Index n={i + 2} label="Rama" />
+                </span>
+                <span className="branch-row__text">
+                  <span className="branch-row__goal">{branch.goal}</span>
+                  <span className="branch-row__name">{branch.name}</span>
+                </span>
+                <ChevronRight size={16} strokeWidth={2} aria-hidden />
+              </button>
+            </li>
+          ))}
         </ul>
       </section>
 
       <section className="stack">
-        <p className="overline">Duración de la temporada</p>
+        <p className="overline">05 · Duración de la temporada</p>
         <Segmented
           label="Duración de la temporada"
           size="sm"
@@ -216,13 +206,11 @@ export function BranchEditor({
                   <button
                     type="button"
                     className={`pillar-chip ${active ? 'is-active' : ''}`}
-                    style={{ '--tone': pillar.color } as React.CSSProperties}
                     disabled={disabled}
                     aria-pressed={active}
                     onClick={() => pick(key)}
                   >
-                    <BranchBadge pillar={key} color={pillar.color} size={34} muted={disabled} />
-                    <span>{pillar.name}</span>
+                    {pillar.name}
                   </button>
                 </li>
               )

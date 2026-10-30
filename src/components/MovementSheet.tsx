@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Check, Clock, RotateCcw, SignalHigh } from 'lucide-react'
 import { Sheet } from './Sheet'
 import { Button, TextField } from './ui'
-import { PILLARS } from '../app/pillars'
 import { plannedDayName } from '../app/engine'
 import type { Branch, Movement } from '../app/types'
 
@@ -24,7 +23,6 @@ export function MovementSheet({ movement, branch, onClose, onResolve, onReopen }
   }, [movement?.id])
 
   if (!movement || !branch) return null
-  const tone = PILLARS[branch.pillar].color
   const resolved = movement.status !== 'pendiente'
 
   return (
@@ -68,9 +66,7 @@ export function MovementSheet({ movement, branch, onClose, onResolve, onReopen }
         )
       }
     >
-      <p className="move-detail__intent" style={{ color: tone }}>
-        {movement.intent}
-      </p>
+      <p className="move-detail__intent">{movement.intent}</p>
 
       <div className="meta-row">
         <span className="meta">

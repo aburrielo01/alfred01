@@ -1,4 +1,3 @@
-import { useId } from 'react'
 import type { DayPoint } from '../app/engine'
 
 const W = 320
@@ -31,7 +30,6 @@ function pointsToPath(values: { x: number; y: number }[]): string {
  * ocurrido no se dibujan planos, se dejan vacíos.
  */
 export function WeekChart({ curve, caption }: { curve: DayPoint[]; caption: string }) {
-  const gradientId = useId()
   const plotH = H - PAD_TOP - PAD_BOTTOM
   const step = (W - PAD_X * 2) / 6
 
@@ -44,10 +42,6 @@ export function WeekChart({ curve, caption }: { curve: DayPoint[]; caption: stri
     }))
   const line = pointsToPath(coords)
   const last = coords[coords.length - 1]
-  const area =
-    coords.length > 1 && last
-      ? `${line} L ${last.x} ${H - PAD_BOTTOM} L ${coords[0].x} ${H - PAD_BOTTOM} Z`
-      : ''
 
   return (
     <figure className="chart">
@@ -58,13 +52,6 @@ export function WeekChart({ curve, caption }: { curve: DayPoint[]; caption: stri
         role="img"
         aria-label={caption}
       >
-        <defs>
-          <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--tint)" stopOpacity="0.34" />
-            <stop offset="100%" stopColor="var(--tint)" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
         {[0, 25, 50, 75, 100].map((tick) => {
           const y = PAD_TOP + plotH - (tick / 100) * plotH
           return (
@@ -74,26 +61,25 @@ export function WeekChart({ curve, caption }: { curve: DayPoint[]; caption: stri
               x2={W - PAD_X}
               y1={y}
               y2={y}
-              stroke="rgba(255,255,255,0.07)"
+              stroke="var(--line)"
               strokeWidth="1"
               vectorEffect="non-scaling-stroke"
             />
           )
         })}
 
-        {area ? <path d={area} fill={`url(#${gradientId})`} /> : null}
         {line ? (
           <path
             d={line}
             fill="none"
-            stroke="var(--tint)"
+            stroke="var(--ink)"
             strokeWidth="2.5"
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
           />
         ) : null}
         {last ? (
-          <circle cx={last.x} cy={last.y} r="4" fill="#fff" vectorEffect="non-scaling-stroke" />
+          <circle cx={last.x} cy={last.y} r="4.5" fill="var(--live)" vectorEffect="non-scaling-stroke" />
         ) : null}
       </svg>
 

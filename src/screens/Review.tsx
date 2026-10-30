@@ -13,9 +13,8 @@ import {
 import { Screen } from '../components/Screen'
 import { Sheet } from '../components/Sheet'
 import { WeekChart } from '../components/WeekChart'
-import { BranchBadge } from '../components/BranchIcon'
+import { Index } from '../components/Index'
 import { Button, Field, Segmented, useToast } from '../components/ui'
-import { PILLARS } from '../app/pillars'
 import {
   branchProgress,
   currentWeek,
@@ -71,11 +70,11 @@ export function Review({ onPulse }: { onPulse: () => void }) {
   }
 
   return (
-    <Screen title="Revisión" subtitle="Tu semana, en perspectiva." onPulse={onPulse}>
+    <Screen title="Revisión" subtitle="La semana, en perspectiva" onPulse={onPulse}>
       <section className="week-card">
         <div className="week-card__head">
           <div>
-            <p className="week-card__label">Visión semanal</p>
+            <p className="week-card__label">01 · Visión semanal</p>
             <p className="week-card__value num">
               {performance}
               <span>%</span>
@@ -96,26 +95,21 @@ export function Review({ onPulse }: { onPulse: () => void }) {
       </section>
 
       <ul className="score-row">
-        {progress.map((p) => {
-          const pillar = PILLARS[p.branch.pillar]
+        {progress.map((p, i) => {
           const trend = p.delta > 0 ? 'up' : p.delta < 0 ? 'down' : 'flat'
           return (
-            <li
-              key={p.branch.id}
-              className="score"
-              style={{ '--tone': pillar.color } as React.CSSProperties}
-            >
-              <BranchBadge pillar={p.branch.pillar} color={pillar.color} size={38} />
+            <li key={p.branch.id} className="score">
+              <span className="score__index">
+                <Index n={i + 2} />
+              </span>
               <p className="score__name">{p.branch.name}</p>
-              <p className="score__value num" style={{ color: pillar.color }}>
-                {p.weekPoints}
-              </p>
+              <p className="score__value num">{p.weekPoints}</p>
               <p className="score__unit">puntos</p>
               <p className={`score__delta num is-${trend}`}>
                 {trend === 'up' ? <ArrowUp size={13} strokeWidth={2.4} aria-hidden /> : null}
                 {trend === 'down' ? <ArrowDown size={13} strokeWidth={2.4} aria-hidden /> : null}
                 {trend === 'flat' ? <Minus size={13} strokeWidth={2.4} aria-hidden /> : null}
-                {signed(p.delta)} <span>vs. la semana pasada</span>
+                {signed(p.delta)} <span>vs. anterior</span>
               </p>
             </li>
           )
@@ -123,7 +117,7 @@ export function Review({ onPulse }: { onPulse: () => void }) {
       </ul>
 
       <section className="accountability">
-        <h2 className="accountability__title">Validado por amigo o coach</h2>
+        <h2 className="accountability__title">05 · Validación</h2>
 
         <Segmented
           label="Quién valida tu revisión"

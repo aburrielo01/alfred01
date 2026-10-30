@@ -1,11 +1,10 @@
 import { useState } from 'react'
+import { Pct } from '../components/Pct'
 import { ArrowRight, Check, Clock } from 'lucide-react'
 import { Screen } from '../components/Screen'
-import { Orb } from '../components/Orb'
 import { Sheet } from '../components/Sheet'
 import { SystemTree } from '../components/SystemTree'
 import { Button, Field, Overline, ProgressBar, Segmented, TextField } from '../components/ui'
-import { PILLARS } from '../app/pillars'
 import {
   branchProgress,
   currentWeek,
@@ -40,16 +39,15 @@ export function System({ onOpenMovement, onOpenBranch, onPulse, onDone }: Props)
   const nextBranch = next ? season.branches.find((b) => b.id === next.branchId) : undefined
 
   return (
-    <Screen title="Sistema" subtitle="Tu sistema. Tu enfoque. Tu evolución." onPulse={onPulse}>
+    <Screen title="Sistema" subtitle="Una temporada, tres ramas" onPulse={onPulse}>
       <button type="button" className="season" onClick={() => setEditing(true)}>
-        <Orb size={230} />
         <span className="season__content">
-          <Overline>Temporada actual</Overline>
+          <Overline>01 · Temporada actual</Overline>
           <span className="season__purpose">{season.purpose}</span>
           <span className="season__week num">
             Semana {week} de {season.weeks} · quedan {daysLeft(season)} días
           </span>
-          <span className="season__percent num">{percent}%</span>
+          <span className="season__percent num"><Pct value={percent} /></span>
           <span className="season__label">Cumplimiento del plan</span>
           <ProgressBar value={percent} label="Cumplimiento de la temporada" />
         </span>
@@ -64,14 +62,14 @@ export function System({ onOpenMovement, onOpenBranch, onPulse, onDone }: Props)
         <div className="next">
           <button type="button" className="next__main" onClick={() => onOpenMovement(next)}>
             <span className="next__text">
-              <Overline>Siguiente movimiento</Overline>
+              <Overline>05 · Siguiente movimiento</Overline>
               <span className="next__title">{next.title}</span>
               <span className="next__meta num">
                 <Clock size={14} strokeWidth={2} aria-hidden />
                 {next.minutes} min · {nextBranch.name}
               </span>
             </span>
-            <span className="next__go" aria-hidden style={{ '--tone': PILLARS[nextBranch.pillar].color } as React.CSSProperties}>
+            <span className="next__go" aria-hidden>
               <ArrowRight size={19} strokeWidth={2.2} />
             </span>
           </button>

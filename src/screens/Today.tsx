@@ -1,10 +1,9 @@
-import { ArrowRight, ChevronRight, Clock, SignalHigh } from 'lucide-react'
+import { ArrowRight, Clock, SignalHigh } from 'lucide-react'
+import { Pct } from '../components/Pct'
 import { Screen } from '../components/Screen'
-import { Orb } from '../components/Orb'
-import { BranchBadge } from '../components/BranchIcon'
+import { Index } from '../components/Index'
 import { ProgressBar } from '../components/ui'
-import { PILLARS } from '../app/pillars'
-import { branchProgress, greeting, nextMovement } from '../app/engine'
+import { branchProgress, greeting, nextMovement, weakestBranch } from '../app/engine'
 import { useStore } from '../app/store'
 import type { Movement } from '../app/types'
 
@@ -26,52 +25,50 @@ export function Today({ onOpenMovement, onOpenBranch, onPulse, onReview }: Props
   if (!season) return null
 
   const progress = branchProgress(state)
+  const weak = weakestBranch(progress)
   const next = nextMovement(state)
   const nextBranch = next ? season.branches.find((b) => b.id === next.branchId) : undefined
   const [lead, tail] = next ? splitTitle(next.title) : ['', null]
-  const tone = nextBranch ? PILLARS[nextBranch.pillar].color : 'var(--tint)'
 
   return (
     <Screen onPulse={onPulse}>
       <div className="greeting">
         <p className="greeting__hello">
-          {greeting()}, {state.name}.
+          {greeting()}, {state.name}
         </p>
         <p className="greeting__mantra">{season.purposeDetail || season.purpose}</p>
       </div>
 
       {next && nextBranch ? (
         <button type="button" className="hero" onClick={() => onOpenMovement(next)}>
-          <Orb size={210} tone={tone} />
           <span className="hero__content">
-            <span className="hero__title">Tu siguiente movimiento</span>
+            <span className="hero__title">01 · Tu siguiente movimiento</span>
             <span className="hero__branch">{nextBranch.name}</span>
-            <span className="hero__move" style={{ color: tone }}>
-              {tail ?? lead}
-            </span>
+            <span className="hero__move">{tail ?? lead}</span>
             {tail ? <span className="hero__lead">{lead}</span> : null}
             <span className="meta-row hero__meta">
-              <span className="meta num">
-                <Clock size={15} strokeWidth={2} aria-hidden />
+              <span className="meta">
+                <Clock size={13} strokeWidth={2} aria-hidden />
                 {next.minutes} min
               </span>
               <span className="meta">
-                <SignalHigh size={15} strokeWidth={2} aria-hidden />
-                Dificultad <b style={{ color: tone }}>{next.difficulty}</b>
+                <SignalHigh size={13} strokeWidth={2} aria-hidden />
+                Dificultad <b>{next.difficulty}</b>
               </span>
             </span>
           </span>
           <span className="hero__go" aria-hidden>
-            <ArrowRight size={22} strokeWidth={2.2} />
+            <ArrowRight size={18} strokeWidth={2.2} />
           </span>
         </button>
       ) : (
         <div className="hero hero--calm">
           <span className="hero__content">
-            <span className="hero__title">Temporada cumplida</span>
+            <span className="hero__title">01 · Temporada cumplida</span>
+            <span className="hero__move">Nada pendiente</span>
             <span className="hero__branch">
-              No queda nada pendiente en el plan. Cierra la semana en Revisión y decide la
-              siguiente temporada.
+              Has resuelto todos los movimientos del plan. Cierra la semana en Revisión y decide
+              la siguiente temporada.
             </span>
           </span>
           <button type="button" className="link" onClick={onReview}>
@@ -80,45 +77,42 @@ export function Today({ onOpenMovement, onOpenBranch, onPulse, onReview }: Props
         </div>
       )}
 
-      <section className="stack">
-        <div className="section-title">
-          <h2>Camino vivo</h2>
-          <p>Tres ramas. Un mismo propósito.</p>
-        </div>
+      <div className="section-title">
+        <h2>Camino vivo</h2>
+        <p>Tres ramas. Un mismo propósito.</p>
+      </div>
 
-        <ul className="branch-list">
-          {progress.map((p) => {
-            const pillar = PILLARS[p.branch.pillar]
-            return (
-              <li key={p.branch.id}>
-                <button
-                  type="button"
-                  className="branch-card"
-                  style={{ '--tone': pillar.color } as React.CSSProperties}
-                  onClick={() => onOpenBranch(p.branch.id)}
-                >
-                  <BranchBadge pillar={p.branch.pillar} color={pillar.color} size={46} />
-                  <span className="branch-card__text">
-                    <span className="branch-card__name">{p.branch.name}</span>
-                    <span className="branch-card__goal">{p.branch.goal}</span>
-                  </span>
-                  <span className="branch-card__percent num" style={{ color: pillar.color }}>
-                    {p.percent}%
-                  </span>
-                  <ChevronRight size={18} strokeWidth={2} className="branch-card__chevron" aria-hidden />
-                  <span className="branch-card__bar">
-                    <ProgressBar
-                      value={p.percent}
-                      color={pillar.color}
-                      label={`Cumplimiento de ${p.branch.name}`}
-                    />
-                  </span>
-                </button>
-              </li>
-            )
-          })}
-        </ul>
-      </section>
+      <ul className="branch-list">
+        {progress.map((p, i) => {
+          const neglected = p.branch.id === weak?.branch.id
+          return (
+            <li key={p.branch.id}>
+              <button
+                type="button"
+                className={`branch-card ${neglected ? 'is-neglected' : ''}`}
+                onClick={() => onOpenBranch(p.branch.id)}
+              >
+                <span className="branch-card__index">
+                  <Index n={i + 2} label={neglected ? 'Más descuidada' : undefined} />
+                  {neglected ? <span className="dot-alert" aria-hidden /> : null}
+                </span>
+                <span className="branch-card__text">
+                  <span className="branch-card__name">{p.branch.name}</span>
+                  <span className="branch-card__goal">{p.branch.goal}</span>
+                </span>
+                <span className="branch-card__percent"><Pct value={p.percent} /></span>
+                <span className="branch-card__bar">
+                  <ProgressBar
+                    value={p.percent}
+                    color={neglected ? 'var(--alert)' : 'var(--ink)'}
+                    label={`Cumplimiento de ${p.branch.name}`}
+                  />
+                </span>
+              </button>
+            </li>
+          )
+        })}
+      </ul>
     </Screen>
   )
 }

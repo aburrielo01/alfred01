@@ -1,6 +1,7 @@
+import type { ReactNode } from 'react'
 import { Sheet } from './Sheet'
+import { Pct } from './Pct'
 import { ProgressBar } from './ui'
-import { PILLARS } from '../app/pillars'
 import {
   branchProgress,
   currentWeek,
@@ -24,11 +25,11 @@ export function PulseSheet({
   if (!season) return null
 
   const progress = branchProgress(state)
-  const rows = [
+  const rows: { label: string; value: ReactNode }[] = [
     { label: 'Semana', value: `${currentWeek(season)} de ${season.weeks}` },
-    { label: 'Rendimiento de esta semana', value: `${weekPerformance(state)}%` },
-    { label: 'Cumplimiento de la temporada', value: `${seasonPercent(progress)}%` },
-    { label: 'Racha de días cumplidos', value: `${streak(state)}` },
+    { label: 'Esta semana', value: <Pct value={weekPerformance(state)} /> },
+    { label: 'Temporada', value: <Pct value={seasonPercent(progress)} /> },
+    { label: 'Racha', value: `${streak(state)} días` },
     { label: 'Quedan', value: `${daysLeft(season)} días` },
   ]
 
@@ -53,13 +54,11 @@ export function PulseSheet({
           <div key={p.branch.id} className="pulse__branch">
             <div className="pulse__branch-head">
               <span>{p.branch.name}</span>
-              <span className="num" style={{ color: PILLARS[p.branch.pillar].color }}>
-                {p.percent}%
-              </span>
+              <span className="num"><Pct value={p.percent} /></span>
             </div>
             <ProgressBar
               value={p.percent}
-              color={PILLARS[p.branch.pillar].color}
+              color="var(--ink)"
               label={`Cumplimiento de ${p.branch.name}`}
             />
             <p className="pulse__branch-note num">

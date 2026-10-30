@@ -13,7 +13,6 @@ export interface Pillar {
   name: string
   blurb: string
   defaultGoal: string
-  color: string
   templates: MoveTemplate[]
 }
 
@@ -23,7 +22,6 @@ export const PILLARS: Record<PillarKey, Pillar> = {
     name: 'Cuerpo',
     blurb: 'Fuerza, composición, energía diaria.',
     defaultGoal: 'Alcanzar 12% de grasa corporal / 75 kg',
-    color: 'var(--branch-cuerpo)',
     templates: [
       {
         title: 'Entrenamiento de fuerza · Upper Body',
@@ -167,7 +165,6 @@ export const PILLARS: Record<PillarKey, Pillar> = {
     name: 'Relaciones',
     blurb: 'Vínculos, valentía social, presencia.',
     defaultGoal: 'Pedirle una cita a una chica que me parezca verdaderamente guapa',
-    color: 'var(--branch-relaciones)',
     templates: [
       {
         title: 'Acércate y rompe el hielo',
@@ -309,7 +306,6 @@ export const PILLARS: Record<PillarKey, Pillar> = {
     name: 'Proyecto',
     blurb: 'Construir, lanzar, cobrar.',
     defaultGoal: 'Lanzar Derwatt',
-    color: 'var(--branch-proyecto)',
     templates: [
       {
         title: 'Define el siguiente hito',
@@ -451,7 +447,6 @@ export const PILLARS: Record<PillarKey, Pillar> = {
     name: 'Mente',
     blurb: 'Claridad, atención, calma.',
     defaultGoal: 'Recuperar mi capacidad de concentración profunda',
-    color: 'var(--branch-mente)',
     templates: [
       {
         title: 'Diario: qué me pesa hoy',
@@ -593,7 +588,6 @@ export const PILLARS: Record<PillarKey, Pillar> = {
     name: 'Finanzas',
     blurb: 'Margen, ahorro, libertad de decir que no.',
     defaultGoal: 'Doce meses de colchón para elegir en qué trabajo',
-    color: 'var(--branch-finanzas)',
     templates: [
       {
         title: 'Revisa los gastos de la semana',

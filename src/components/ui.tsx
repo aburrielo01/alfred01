@@ -130,7 +130,7 @@ export function TextField({ label, hint, id, ...rest }: TextFieldProps) {
 
 export function ProgressBar({
   value,
-  color = 'var(--tint)',
+  color = 'var(--ink)',
   label,
 }: {
   value: number

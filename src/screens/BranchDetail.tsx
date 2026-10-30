@@ -1,11 +1,10 @@
 import { useCallback, useState } from 'react'
+import { Pct } from '../components/Pct'
 import { Pencil } from 'lucide-react'
 import { Screen } from '../components/Screen'
 import { MovementRow } from '../components/MovementRow'
 import { BranchEditor } from './Onboarding'
-import { BranchBadge } from '../components/BranchIcon'
 import { Button, ProgressBar } from '../components/ui'
-import { PILLARS } from '../app/pillars'
 import { branchProgress, currentWeek, movementsOfBranch } from '../app/engine'
 import { useStore } from '../app/store'
 import type { Movement } from '../app/types'
@@ -30,7 +29,6 @@ export function BranchDetail({ branchId, onBack, backLabel, onOpenMovement }: Pr
 
   if (!season || !branch) return null
 
-  const pillar = PILLARS[branch.pillar]
   const progress = branchProgress(state).find((p) => p.branch.id === branchId)
   const moves = movementsOfBranch(state, branchId, week)
   const weeks = Array.from({ length: season.weeks }, (_, i) => i + 1)
@@ -38,25 +36,20 @@ export function BranchDetail({ branchId, onBack, backLabel, onOpenMovement }: Pr
 
   return (
     <Screen onBack={onBack} backLabel={backLabel}>
-      <header className="branch-head" style={{ '--tone': pillar.color } as React.CSSProperties}>
-        <BranchBadge pillar={branch.pillar} color={pillar.color} size={54} />
-        <div>
-          <h1 className="branch-head__name">{branch.name}</h1>
-          <p className="branch-head__goal">{branch.goal}</p>
-        </div>
+      <header className="branch-head">
+        <h1 className="branch-head__name">{branch.name}</h1>
+        <p className="branch-head__goal">{branch.goal}</p>
       </header>
 
       {progress ? (
         <div className="branch-head__stats">
-          <p className="num" style={{ color: pillar.color }}>
-            {progress.percent}%
-          </p>
+          <p className="num"><Pct value={progress.percent} /></p>
           <p className="branch-head__stat-label num">
             {progress.done} de {progress.total} movimientos confirmados
           </p>
           <ProgressBar
             value={progress.percent}
-            color={pillar.color}
+            color="var(--ink)"
             label={`Cumplimiento de ${branch.name}`}
           />
         </div>
@@ -72,7 +65,6 @@ export function BranchDetail({ branchId, onBack, backLabel, onOpenMovement }: Pr
                 aria-current={w === week ? 'true' : undefined}
                 ref={w === week ? centerActive : undefined}
                 onClick={() => setWeek(w)}
-                style={{ '--tone': pillar.color } as React.CSSProperties}
               >
                 <span className="num">{w}</span>
               </button>
@@ -101,12 +93,7 @@ export function BranchDetail({ branchId, onBack, backLabel, onOpenMovement }: Pr
         ) : (
           <ul className="move-list">
             {moves.map((m) => (
-              <MovementRow
-                key={m.id}
-                movement={m}
-                tone={pillar.color}
-                onOpen={() => onOpenMovement(m)}
-              />
+              <MovementRow key={m.id} movement={m} onOpen={() => onOpenMovement(m)} />
             ))}
           </ul>
         )}
